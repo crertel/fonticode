@@ -10,7 +10,8 @@ defmodule Fonticode.MixProject do
       deps: deps(),
       docs: &docs/0,
       package: package(),
-      source_url: "https://github.com/crertel/fonticode"
+      source_url: "https://github.com/crertel/fonticode",
+      description: "Small library to convert text into pseudofonts via Unicode shenanigans."
     ]
   end
 
