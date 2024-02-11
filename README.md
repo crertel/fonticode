@@ -10,7 +10,7 @@ by adding `fonticode` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:fonticode, "~> 0.1.0"}
+    {:fonticode, "~> 1.0.0"}
   ]
 end
 ```
