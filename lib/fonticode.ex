@@ -976,8 +976,21 @@ defmodule Fonticode do
   end
 
   # taken from:
-  # https://elixirforum.com/t/is-there-a-faster-way-to-write-this-code/18486/3
+  #
   # TODO: I suspect this could be replaced with macro douchebaggery. -crertel
+  @doc """
+  Given a binary and a map of codepoint replacements, does so.
+
+  Implementation cribbed from [here](https://elixirforum.com/t/is-there-a-faster-way-to-write-this-code/18486/3).
+
+  ## Examples
+
+      iex> Fonticode.substitute("ABCDE", %{"C" => "X", "D" => "Y"})
+      "ABXYE"
+
+      iex> Fonticode.substitute("ABCDE", %{"C" => "D", "D" => "C"})
+      "ABDCE"
+  """
   @spec substitute(String.t(), substitution_map) :: String.t()
   def substitute(data, subs) when is_binary(data) and is_map(subs) do
     match_list = :binary.matches(data, Map.keys(subs))
