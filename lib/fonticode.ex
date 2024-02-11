@@ -938,6 +938,7 @@ defmodule Fonticode do
 
   # taken from:
   # https://elixirforum.com/t/is-there-a-faster-way-to-write-this-code/18486/3
+  # TODO: I suspect this could be replaced with macro douchebaggery. -crertel
   @spec substitute(String.t(), substitution_map) :: String.t()
   def substitute(data, subs) when is_binary(data) and is_map(subs) do
     match_list = :binary.matches(data, Map.keys(subs))
