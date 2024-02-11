@@ -1,29 +1,35 @@
 defmodule Fonticode do
   @moduledoc """
-  Documentation for `Fonticode`.
+  Small library that takes a string and reformats it into a pseudofont.
+
+  This is accomplished by using Unicode codepoints that resemble a font.
+
+  |Format mode | Example |
+  |------------|-----------|
+  |:noop | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890 |
+  |:sans_serif | 𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹 𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓 𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫𝟢 |
+  |:cursive | 𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵 𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏 1234567890 |
+  |:blackboard_bold | 𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ 𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫 𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡𝟘 |
+  |:block | 🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉 🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉 1234567890 |
+  |:block_filled | 🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉 🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉 1234567890 |
+  |:bubble | ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ ①②③④⑤⑥⑦⑧⑨⓪ |
+  |:bubble_filled | 🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩 🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩 ➊➋➌➍➎➏➐➑➒⓿|
+  |:gothic |  𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ 𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷 1234567890 |
+  |:small_caps | ABCDEFGHIJKLMNOPQRSTUVWXYZ ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ 1234567890 |
+  |:aesthetic | ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ １２３４５６７８９０ ＜＞．／＼？；：＇＂ ～！＠＃＄％＾＆＊（）＿＋ |
+  |:monospace | 𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉 𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣 𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿0 |
+  |:bold | 𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙 𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳 𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗𝟎 |
+  |:superscript | ᴬᴮꟲᴰᴱꟳᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾꟴᴿˢᵀᵁⱽᵂˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰᶦʲᵏˡᵐⁿᵒᵖ𐞥ʳˢᵗᵘᵛʷˣʸᶻ ¹²³⁴⁵⁶⁷⁸⁹⁰ |
+  |:italic | 𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍 𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧 1234567890 |
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Fonticode.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   @type format_mode ::
           :noop
           | :sans_serif
-          | :serif
           | :cursive
           | :blackboard_bold
           | :block
-          | :black_filled
+          | :block_filled
           | :bubble
           | :bubble_filled
           | :gothic
@@ -36,6 +42,28 @@ defmodule Fonticode do
 
   @type substitution_map :: %{String.t() => String.t()}
 
+  @doc """
+  Gets the available formatting modes.
+
+  ## Examples
+
+      iex> Fonticode.modes()
+      [ :noop,
+      :sans_serif,
+      :cursive,
+      :blackboard_bold,
+      :block,
+      :block_filled,
+      :bubble,
+      :bubble_filled,
+      :gothic,
+      :small_caps,
+      :aesthetic,
+      :monospace,
+      :bold,
+      :superscript,
+      :italic]
+  """
   def modes() do
     [
       :noop,
@@ -56,9 +84,20 @@ defmodule Fonticode do
     ]
   end
 
+  @doc """
+  Formats a string, replacing codepoints to mimic a pseudostyle.
+
+  Use `modes/0` to get available options.
+
+  ## Examples
+    iex> Fonticode.format("ABC", :noop)
+    "ABC"
+
+    iex> Fonticode.format("ABC", :gothic)
+    "𝔄𝔅ℭ"
+  """
   @spec format(String.t(), format_mode) :: String.t()
   def format(text, :noop), do: text
-
   def format(text, :sans_serif) do
     substitute(text, %{
       "a" => "𝖺",
