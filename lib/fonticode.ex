@@ -106,7 +106,36 @@ defmodule Fonticode do
   def format(text, :block_filled), do: text
   def format(text, :bubble), do: text
   def format(text, :bubble_filled), do: text
-  def format(text, :gothic), do: text
+  def format(text, :gothic) do
+    substitute(text, %{
+      "a" => "𝔞", "A" => "𝔄",
+      "b" => "𝔟", "B" => "𝔅",
+      "c" => "𝔠", "C" => "ℭ",
+      "d" => "𝔡", "D" => "𝔇",
+      "e" => "𝔢", "E" => "𝔈",
+      "f" => "𝔣", "F" => "𝔉",
+      "g" => "𝔤", "G" => "𝔊",
+      "h" => "𝔥", "H" => "ℌ",
+      "i" => "𝔦", "I" => "ℑ",
+      "j" => "𝔧", "J" => "𝔍",
+      "k" => "𝔨", "K" => "𝔎",
+      "l" => "𝔩", "L" => "𝔏",
+      "m" => "𝔪", "M" => "𝔐",
+      "n" => "𝔫", "N" => "𝔑",
+      "o" => "𝔬", "O" => "𝔒",
+      "p" => "𝔭", "P" => "𝔓",
+      "q" => "𝔮", "Q" => "𝔔",
+      "r" => "𝔯", "R" => "ℜ",
+      "s" => "𝔰", "S" => "𝔖",
+      "t" => "𝔱", "T" => "𝔗",
+      "u" => "𝔲", "U" => "𝔘",
+      "v" => "𝔳", "V" => "𝔙",
+      "w" => "𝔴", "W" => "𝔚",
+      "x" => "𝔵", "X" => "𝔛",
+      "y" => "𝔶", "Y" => "𝔜",
+      "z" => "𝔷", "Z" => "ℨ"
+    })
+  end
   def format(text, :small_caps), do: text
   def format(text, :spaced_out), do: text
   def format(text, :monospace), do: text
