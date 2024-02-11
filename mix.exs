@@ -26,7 +26,8 @@ defmodule Fonticode.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7.4", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4.3", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4.3", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.31.1", only: [:dev, :docs]}
     ]
   end
 
