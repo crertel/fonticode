@@ -98,6 +98,55 @@ defmodule FonticodeTest do
       ~!@#$%^&*()_+
       """
     end
-  end
 
+    test "formats :small_caps" do
+      assert Fonticode.format(@normal, :small_caps) == """
+      ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ
+      1234567890
+      <>./\?;:'"
+      ~!@#$%^&*()_+
+      """
+    end
+
+    test "formats :spaced_out" do
+      assert Fonticode.format(@normal, :spaced_out) == """
+      ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ
+      1234567890
+      <>./\?;:'"
+      ~!@#$%^&*()_+
+      """
+    end
+
+    test "formats :bold" do
+      assert Fonticode.format(@normal, :bold) == """
+      𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙
+      𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳
+      𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗𝟎
+      <>./\?;:'"
+      ~!@#$%^&*()_+
+      """
+    end
+
+    test "formats :superscript" do
+      assert Fonticode.format(@normal, :superscript) == """
+      ᴬᴮꟲᴰᴱꟳᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾꟴᴿˢᵀᵁⱽᵂˣʸᶻ
+      ᵃᵇᶜᵈᵉᶠᵍʰᶦʲᵏˡᵐⁿᵒᵖ𐞥ʳˢᵗᵘᵛʷˣʸᶻ
+      ¹²³⁴⁵⁶⁷⁸⁹⁰
+      <>./\?;:'"
+      ~!@#$%^&*⁽⁾_⁺
+      """
+    end
+
+    test "formats :italic" do
+      assert Fonticode.format(@normal, :italic) == """
+      𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍
+      𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧
+      1234567890
+      <>./\?;:'"
+      ~!@#$%^&*()_+
+      """
+    end
+  end
 end
